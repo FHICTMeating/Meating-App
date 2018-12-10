@@ -57,6 +57,9 @@ class QuizFormState extends State<QuizForm> {
                   },
                 ),
                 RaisedButton(
+                  color: Theme.of(context).accentColor,
+                  elevation: 4.0,
+                  splashColor: Colors.blueGrey,
                   child: Text('Next'),
                   onPressed: (){
                     //show next page
