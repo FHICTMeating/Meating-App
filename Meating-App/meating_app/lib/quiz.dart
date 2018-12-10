@@ -18,6 +18,8 @@ class QuizForm extends StatefulWidget {
 }
 
 class QuizFormState extends State<QuizForm> {
+  double _value = 0;
+
   @override
   Widget build(BuildContext context){
     return Scaffold(
@@ -28,11 +30,22 @@ class QuizFormState extends State<QuizForm> {
             SizedBox(height: 80.0),
             Column(
               children: <Widget>[
-                Text('Hoeveel procent van alle verkochte smartphones in 2017 had Android als OS? 87.7%', 
+                Text('Hoeveel procent van alle verkochte smartphones in 2017 had Android als OS?', 
                 style: TextStyle(fontWeight: FontWeight.bold)),
               ],
             ),
             SizedBox(height: 120.0),
+            Text(_value.round().toString() + '%'),
+            Slider(
+              value: _value,
+              min: 0.0,
+              max: 100.0,
+              onChanged: (double value){
+                  setState(() {
+                                      _value = value;
+                                    });
+              },
+            ),
             ButtonBar(
               alignment: MainAxisAlignment.center,
               children: <Widget>[
