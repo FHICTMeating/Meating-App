@@ -68,6 +68,9 @@ class MyCustomFormState extends State<MyCustomForm> {
                     }
                   },
                   child: Text('Starten'),
+                  color: Theme.of(context).accentColor,
+                  elevation: 4.0,
+                  splashColor: Colors.blueGrey
                 ),
               ),
             ],
