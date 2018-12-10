@@ -46,6 +46,7 @@ class QuizFormState extends State<QuizForm> {
                                     });
               },
             ),
+            SizedBox(height: 120.0),
             ButtonBar(
               alignment: MainAxisAlignment.center,
               children: <Widget>[
