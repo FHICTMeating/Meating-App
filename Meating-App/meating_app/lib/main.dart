@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'quiz.dart';
 import 'highscore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(MyApp());
 
@@ -35,6 +36,18 @@ class MyCustomForm extends StatefulWidget {
 
 class MyCustomFormState extends State<MyCustomForm> {
   final _formKey = GlobalKey<FormState>();
+  final nameController = TextEditingController();
+
+  @override
+  void dispose(){
+    nameController.dispose();
+    super.dispose();
+  }
+
+  saveTeam(String name) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setString('teamName', name);
+}
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +65,7 @@ class MyCustomFormState extends State<MyCustomForm> {
               Text('Kies een naam voor je team',
                   style: TextStyle(fontWeight: FontWeight.bold)),
               TextFormField(
+                controller: nameController,
                 validator: (value) {
                   if (value.isEmpty) {
                     return 'Kies een naam voor je team';
@@ -63,6 +77,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                 child: RaisedButton(
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
+                      saveTeam(nameController.text);
                       Navigator.pushReplacementNamed(
                         context,
                         'quiz',
