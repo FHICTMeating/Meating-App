@@ -27,7 +27,7 @@ class QuizFormState extends State<QuizForm> {
       questions.add('Hoeveel procent van alle verkochte smartphones in 2017 had Android als OS?');
       questions.add('Hoeveel procent van de aarde is bedekt in water?');
       super.initState();
-    }
+  }
 
   @override
   Widget build(BuildContext context){

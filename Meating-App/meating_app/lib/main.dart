@@ -45,9 +45,9 @@ class MyCustomFormState extends State<MyCustomForm> {
   }
 
   saveTeam(String name) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  await prefs.setString('teamName', name);
-}
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('teamName', name);
+  }
 
   @override
   Widget build(BuildContext context) {
