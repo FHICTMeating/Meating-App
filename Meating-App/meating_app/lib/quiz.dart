@@ -32,18 +32,22 @@ class QuizFormState extends State<QuizForm> {
               children: <Widget>[
                 Text('Hoeveel procent van alle verkochte smartphones in 2017 had Android als OS?', 
                 style: TextStyle(fontWeight: FontWeight.bold)),
+                SizedBox(height: 80.0),
+                CircularProgressIndicator(
+                  value: _value * 0.01,
+                ),
               ],
             ),
-            SizedBox(height: 120.0),
+            SizedBox(height: 80.0),
             Text(_value.round().toString() + '%'),
             Slider(
               value: _value,
               min: 0.0,
               max: 100.0,
               onChanged: (double value){
-                  setState(() {
-                                      _value = value;
-                                    });
+                setState(() {
+                  _value = value;
+                });
               },
             ),
             SizedBox(height: 120.0),
