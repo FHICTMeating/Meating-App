@@ -23,9 +23,14 @@ class QuizFormState extends State<QuizForm> {
   int _position = 0;
 
   @override
+  void initState() {
+      questions.add('Hoeveel procent van alle verkochte smartphones in 2017 had Android als OS?');
+      questions.add('Hoeveel procent van de aarde is bedekt in water?');
+      super.initState();
+    }
+
+  @override
   Widget build(BuildContext context){
-    questions.add('Hoeveel procent van alle verkochte smartphones in 2017 had Android als OS?');
-    questions.add('Hoeveel procent van de aarde is bedekt in water?');
     return Scaffold(
       body: SafeArea(
         child: ListView(
@@ -74,16 +79,21 @@ class QuizFormState extends State<QuizForm> {
                   splashColor: Colors.blueGrey,
                   child: Text('Next'),
                   onPressed: (){
-                    setState((){
-                        _position++;
-                        _value = 0;
-                        //send data to firebase
-                      }
-                    );
+                    if (_position + 1 == questions.length){
+                      Navigator.pushReplacementNamed(context, 'highscore',
+                      );
+                    } else {
+                      setState((){
+                          _position++;
+                          _value = 0;
+                          //send data to firebase
+                        }
+                      );
+                    }
                   },
                 ),
               ],
-              )
+            )
           ],
         ),
       ),

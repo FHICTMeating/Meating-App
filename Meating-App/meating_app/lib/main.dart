@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'quiz.dart';
+import 'highscore.dart';
 
 void main() => runApp(MyApp());
 
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
       routes: <String, WidgetBuilder>{
         'start': (BuildContext context) => new MyApp(),
         'quiz': (BuildContext context) => new QuizScreen(),
+        'highscore': (BuildContext context) => new HighScoreScreen(),
       },
     );
   }
