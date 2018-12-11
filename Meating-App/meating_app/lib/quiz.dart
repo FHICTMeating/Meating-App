@@ -61,7 +61,11 @@ class QuizFormState extends State<QuizForm> {
                 FlatButton(
                   child: Text('Previous'),
                   onPressed: (){
-                    //show previous page
+                    setState((){
+                        _position--;
+                        _value = 0;
+                      }
+                    );
                   },
                 ),
                 RaisedButton(
@@ -73,6 +77,7 @@ class QuizFormState extends State<QuizForm> {
                     setState((){
                         _position++;
                         _value = 0;
+                        //send data to firebase
                       }
                     );
                   },
