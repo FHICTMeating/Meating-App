@@ -66,11 +66,16 @@ class QuizFormState extends State<QuizForm> {
                 FlatButton(
                   child: Text('Previous'),
                   onPressed: (){
-                    setState((){
-                        _position--;
-                        _value = 0;
-                      }
-                    );
+                    if (_position - 1 < 0){
+                      Navigator.pushReplacementNamed(context, 'start',
+                      );
+                    } else {
+                      setState((){
+                          _position--;
+                          _value = 0;
+                        }
+                      );
+                    }
                   },
                 ),
                 RaisedButton(
