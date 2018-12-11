@@ -18,10 +18,14 @@ class QuizForm extends StatefulWidget {
 }
 
 class QuizFormState extends State<QuizForm> {
+  final List<String> questions = new List<String>();
   double _value = 0;
+  int _position = 0;
 
   @override
   Widget build(BuildContext context){
+    questions.add('Hoeveel procent van alle verkochte smartphones in 2017 had Android als OS?');
+    questions.add('Hoeveel procent van de aarde is bedekt in water?');
     return Scaffold(
       body: SafeArea(
         child: ListView(
@@ -30,7 +34,7 @@ class QuizFormState extends State<QuizForm> {
             SizedBox(height: 80.0),
             Column(
               children: <Widget>[
-                Text('Hoeveel procent van alle verkochte smartphones in 2017 had Android als OS?', 
+                Text(questions[_position], 
                 style: TextStyle(fontWeight: FontWeight.bold)),
                 SizedBox(height: 80.0),
                 CircularProgressIndicator(
@@ -66,7 +70,11 @@ class QuizFormState extends State<QuizForm> {
                   splashColor: Colors.blueGrey,
                   child: Text('Next'),
                   onPressed: (){
-                    //show next page
+                    setState((){
+                        _position++;
+                        _value = 0;
+                      }
+                    );
                   },
                 ),
               ],
