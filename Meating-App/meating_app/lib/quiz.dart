@@ -41,7 +41,7 @@ class QuizFormState extends State<QuizForm> {
             Column(
               children: <Widget>[
                 Text(questions[_position],
-                    style: TextStyle(fontWeight: FontWeight.bold)),
+                    style: Theme.of(context).textTheme.title),
                 SizedBox(height: 80.0),
                 CircularProgressIndicator(
                   value: _value * 0.01,

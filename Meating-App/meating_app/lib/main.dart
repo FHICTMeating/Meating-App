@@ -12,6 +12,23 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       title: appTitle,
+      theme: ThemeData(
+        // Define the default Brightness and Colors
+        brightness: Brightness.light,
+        primaryColor: Colors.green[500],
+        accentColor: Colors.green[600],
+
+        // Define the default Font Family
+        fontFamily: 'Montserrat',
+
+        // Define the default TextTheme. Use this to specify the default
+        // text styling for headlines, titles, bodies of text, and more.
+        textTheme: TextTheme(
+          headline: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
+          title: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          body1: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+        ),
+      ),
       home: Scaffold(
         appBar: AppBar(
           title: Text(appTitle),
@@ -52,7 +69,7 @@ class MyCustomFormState extends State<MyCustomForm> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(96.0),
         child: new Form(
           key: _formKey,
           child: Column(
@@ -63,7 +80,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     fit: BoxFit.cover),
               ),
               Text('Kies een naam voor je team',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
+                  style: Theme.of(context).textTheme.headline),
               TextFormField(
                 controller: nameController,
                 validator: (value) {
@@ -73,7 +90,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                 },
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                padding: const EdgeInsets.symmetric(vertical: 64.0),
                 child: RaisedButton(
                     onPressed: () {
                       if (_formKey.currentState.validate()) {
@@ -86,8 +103,9 @@ class MyCustomFormState extends State<MyCustomForm> {
                     },
                     child: Text('Starten'),
                     color: Theme.of(context).accentColor,
+                    textColor: Colors.white,
                     elevation: 4.0,
-                    splashColor: Colors.blueGrey),
+                    splashColor: Colors.white),
               ),
             ],
           ),
