@@ -32,23 +32,23 @@ class HighscoreFormState extends State<HighscoreForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body:
-          ListView.builder(
-            itemCount: scores.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                title: Text(scores[index].teamName + ': ' + scores[index].score.toString()),
-              );
-            },
-          ),
-          // FlatButton(
-          //     child: Text('Previous'),
-          //     onPressed: () {
-          //       Navigator.pushReplacementNamed(
-          //         context,
-          //         'quiz',
-          //       );
-          //     }),
-      );
+      body: ListView.builder(
+        itemCount: scores.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(
+                scores[index].teamName + ': ' + scores[index].score.toString()),
+          );
+        },
+      ),
+      // FlatButton(
+      //     child: Text('Previous'),
+      //     onPressed: () {
+      //       Navigator.pushReplacementNamed(
+      //         context,
+      //         'quiz',
+      //       );
+      //     }),
+    );
   }
 }

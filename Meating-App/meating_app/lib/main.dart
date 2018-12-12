@@ -39,7 +39,7 @@ class MyCustomFormState extends State<MyCustomForm> {
   final nameController = TextEditingController();
 
   @override
-  void dispose(){
+  void dispose() {
     nameController.dispose();
     super.dispose();
   }
@@ -75,20 +75,19 @@ class MyCustomFormState extends State<MyCustomForm> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: RaisedButton(
-                  onPressed: () {
-                    if (_formKey.currentState.validate()) {
-                      saveTeam(nameController.text);
-                      Navigator.pushReplacementNamed(
-                        context,
-                        'quiz',
-                      );
-                    }
-                  },
-                  child: Text('Starten'),
-                  color: Theme.of(context).accentColor,
-                  elevation: 4.0,
-                  splashColor: Colors.blueGrey
-                ),
+                    onPressed: () {
+                      if (_formKey.currentState.validate()) {
+                        saveTeam(nameController.text);
+                        Navigator.pushReplacementNamed(
+                          context,
+                          'quiz',
+                        );
+                      }
+                    },
+                    child: Text('Starten'),
+                    color: Theme.of(context).accentColor,
+                    elevation: 4.0,
+                    splashColor: Colors.blueGrey),
               ),
             ],
           ),

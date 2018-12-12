@@ -24,13 +24,14 @@ class QuizFormState extends State<QuizForm> {
 
   @override
   void initState() {
-      questions.add('Hoeveel procent van alle verkochte smartphones in 2017 had Android als OS?');
-      questions.add('Hoeveel procent van de aarde is bedekt in water?');
-      super.initState();
+    questions.add(
+        'Hoeveel procent van alle verkochte smartphones in 2017 had Android als OS?');
+    questions.add('Hoeveel procent van de aarde is bedekt in water?');
+    super.initState();
   }
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: ListView(
@@ -39,8 +40,8 @@ class QuizFormState extends State<QuizForm> {
             SizedBox(height: 80.0),
             Column(
               children: <Widget>[
-                Text(questions[_position], 
-                style: TextStyle(fontWeight: FontWeight.bold)),
+                Text(questions[_position],
+                    style: TextStyle(fontWeight: FontWeight.bold)),
                 SizedBox(height: 80.0),
                 CircularProgressIndicator(
                   value: _value * 0.01,
@@ -53,7 +54,7 @@ class QuizFormState extends State<QuizForm> {
               value: _value,
               min: 0.0,
               max: 100.0,
-              onChanged: (double value){
+              onChanged: (double value) {
                 setState(() {
                   _value = value;
                 });
@@ -65,16 +66,17 @@ class QuizFormState extends State<QuizForm> {
               children: <Widget>[
                 FlatButton(
                   child: Text('Previous'),
-                  onPressed: (){
-                    if (_position - 1 < 0){
-                      Navigator.pushReplacementNamed(context, 'start',
+                  onPressed: () {
+                    if (_position - 1 < 0) {
+                      Navigator.pushReplacementNamed(
+                        context,
+                        'start',
                       );
                     } else {
-                      setState((){
-                          _position--;
-                          _value = 0;
-                        }
-                      );
+                      setState(() {
+                        _position--;
+                        _value = 0;
+                      });
                     }
                   },
                 ),
@@ -83,17 +85,18 @@ class QuizFormState extends State<QuizForm> {
                   elevation: 4.0,
                   splashColor: Colors.blueGrey,
                   child: Text('Next'),
-                  onPressed: (){
-                    if (_position + 1 == questions.length){
-                      Navigator.pushReplacementNamed(context, 'highscore',
+                  onPressed: () {
+                    if (_position + 1 == questions.length) {
+                      Navigator.pushReplacementNamed(
+                        context,
+                        'highscore',
                       );
                     } else {
-                      setState((){
-                          _position++;
-                          _value = 0;
-                          //send data to firebase
-                        }
-                      );
+                      setState(() {
+                        _position++;
+                        _value = 0;
+                        //send data to firebase
+                      });
                     }
                   },
                 ),
