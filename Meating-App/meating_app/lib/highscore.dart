@@ -49,7 +49,7 @@ class HighscoreFormState extends State<HighscoreForm> {
       Expanded(
         child: Center(
           child: RaisedButton(
-            child: Text('Terug'),
+            child: Text('Terug naar menu'),
             onPressed: () {
               Navigator.pushReplacementNamed(
                 context,

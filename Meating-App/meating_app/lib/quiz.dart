@@ -22,11 +22,13 @@ class QuizFormState extends State<QuizForm> {
   double _value = 0;
   int _position = 0;
 
+
   @override
   void initState() {
     questions.add(
         'Hoeveel procent van alle verkochte smartphones in 2017 had Android als OS?');
     questions.add('Hoeveel procent van de aarde is bedekt in water?');
+
     super.initState();
   }
 
@@ -37,14 +39,19 @@ class QuizFormState extends State<QuizForm> {
         child: ListView(
           padding: EdgeInsets.symmetric(horizontal: 24.0),
           children: <Widget>[
-            SizedBox(height: 80.0),
+            SizedBox(height: 30.0),
             Column(
               children: <Widget>[
                 Text(questions[_position],
                     style: Theme.of(context).textTheme.title),
                 SizedBox(height: 80.0),
-                CircularProgressIndicator(
+                SizedBox(
+                child: CircularProgressIndicator(
                   value: _value * 0.01,
+                  strokeWidth: 20,
+                ),
+                height: 200,
+                width: 200,
                 ),
               ],
             ),
@@ -60,18 +67,15 @@ class QuizFormState extends State<QuizForm> {
                 });
               },
             ),
-            SizedBox(height: 120.0),
+            SizedBox(height: 30.0),
             ButtonBar(
               alignment: MainAxisAlignment.center,
               children: <Widget>[
-                FlatButton(
-                  child: Text('Previous'),
+                RaisedButton(
+                  child: Text('Vorige'),
                   onPressed: () {
                     if (_position - 1 < 0) {
-                      Navigator.pushReplacementNamed(
-                        context,
-                        'start',
-                      );
+                      return null;
                     } else {
                       setState(() {
                         _position--;
@@ -82,9 +86,9 @@ class QuizFormState extends State<QuizForm> {
                 ),
                 RaisedButton(
                   color: Theme.of(context).accentColor,
-                  elevation: 4.0,
+                  textColor: Colors.white,
                   splashColor: Colors.blueGrey,
-                  child: Text('Next'),
+                  child: Text('Volgende'),
                   onPressed: () {
                     if (_position + 1 == questions.length) {
                       Navigator.pushReplacementNamed(

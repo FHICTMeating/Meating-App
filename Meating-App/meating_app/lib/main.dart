@@ -103,10 +103,18 @@ class MyCustomFormState extends State<MyCustomForm> {
                     },
                     child: Text('Starten'),
                     color: Theme.of(context).accentColor,
-                    textColor: Colors.white,
-                    elevation: 4.0,
-                    splashColor: Colors.white),
+                    textColor: Colors.white),
               ),
+              SizedBox(height: 40,),
+              RaisedButton(
+                child: Text('Bekijk highscores'),
+                onPressed: () {
+                        Navigator.pushReplacementNamed(
+                          context,
+                          'highscore',
+                        );
+                    }
+              )
             ],
           ),
         ));
