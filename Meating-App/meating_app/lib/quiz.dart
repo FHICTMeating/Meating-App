@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'piechart.dart';
 
 class QuizScreen extends StatelessWidget {
   @override
@@ -21,7 +22,6 @@ class QuizFormState extends State<QuizForm> {
   final List<String> questions = new List<String>();
   double _value = 0;
   int _position = 0;
-
 
   @override
   void initState() {
@@ -46,12 +46,24 @@ class QuizFormState extends State<QuizForm> {
                     style: Theme.of(context).textTheme.title),
                 SizedBox(height: 80.0),
                 SizedBox(
-                child: CircularProgressIndicator(
-                  value: _value * 0.01,
-                  strokeWidth: 20,
-                ),
-                height: 200,
-                width: 200,
+                  child: Stack(
+                    alignment: FractionalOffset.center,
+                    children: <Widget>[
+                    Positioned.fill(
+                    child: CustomPaint(
+                      foregroundPainter: PieChart(
+                        fillColor: Colors.green[700],
+                        backgroundColor: Colors.lightGreen,
+                        percentage: _value
+                      )
+                    ),
+                    ),
+                    Text(
+                      _value.round().toString() + '%',style: TextStyle(fontSize: 25, color: Colors.white) 
+                      )
+                  ]),
+                  height: 200,
+                  width: 200,
                 ),
               ],
             ),
