@@ -1,13 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'dart:io' show Platform;
+import 'model/user.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'quiz.dart';
 
-void main() => runApp(MyApp());
+FirebaseApp app;
+  
+void main() async{
+  app = await FirebaseApp.configure(
+    name: 'db2',
+    options: Platform.isIOS
+        ? const FirebaseOptions(
+            googleAppID: '1:182815347842:ios:a0030deccf728cb7',
+            databaseURL: 'https://meating-app-48b2e.firebaseio.com',
+            gcmSenderID: '182815347842',
+          )
+        : const FirebaseOptions(
+            googleAppID: '1:182815347842:android:a0030deccf728cb7',
+            apiKey: 'AIzaSyCOWCfxNLpKHWjdBH0fB3WdfQ7Bb33pTjQ',
+            databaseURL: 'https://meating-app-48b2e.firebaseio.com',
+          ),
+  );
+  runApp(QuizApp());
+}
 
-class MyApp extends StatelessWidget {
+class QuizApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final appTitle = 'Meating Quiz';
-
+    final appTitle = 'Meating Quiz';	
     return MaterialApp(
       title: appTitle,
       home: Scaffold(
@@ -17,7 +38,7 @@ class MyApp extends StatelessWidget {
         body: MyCustomForm(),
       ),
       routes: <String, WidgetBuilder>{
-        'start': (BuildContext context) => new MyApp(),
+        'start': (BuildContext context) => new QuizApp(),
         'quiz': (BuildContext context) => new QuizScreen(),
       },
     );
@@ -60,6 +81,10 @@ class MyCustomFormState extends State<MyCustomForm> {
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: RaisedButton(
                   onPressed: () {
+                    User user = new User("sdads");
+                    final FirebaseDatabase database = FirebaseDatabase(app:app);
+                    var userreference = database.reference().child("user");
+                    userreference.push().set(user.toJson());
                     if (_formKey.currentState.validate()) {
                       Navigator.pushReplacementNamed(
                         context,
