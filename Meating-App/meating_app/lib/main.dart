@@ -1,15 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'dart:io' show Platform;
+import 'model/user.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'quiz.dart';
 import 'highscore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-void main() => runApp(MyApp());
+FirebaseApp app;
+  
+void main() async{
+  app = await FirebaseApp.configure(
+    name: 'db2',
+    options: Platform.isIOS
+        ? const FirebaseOptions(
+            googleAppID: '1:182815347842:ios:a0030deccf728cb7',
+            databaseURL: 'https://meating-app-48b2e.firebaseio.com',
+            gcmSenderID: '182815347842',
+          )
+        : const FirebaseOptions(
+            googleAppID: '1:182815347842:android:a0030deccf728cb7',
+            apiKey: 'AIzaSyCOWCfxNLpKHWjdBH0fB3WdfQ7Bb33pTjQ',
+            databaseURL: 'https://meating-app-48b2e.firebaseio.com',
+          ),
+  );
+  runApp(QuizApp());
+}
 
-class MyApp extends StatelessWidget {
+class QuizApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final appTitle = 'Meating Quiz';
-
+    final appTitle = 'Meating Quiz';	
     return MaterialApp(
       title: appTitle,
       theme: ThemeData(
@@ -36,7 +57,7 @@ class MyApp extends StatelessWidget {
         body: MyCustomForm(),
       ),
       routes: <String, WidgetBuilder>{
-        'start': (BuildContext context) => new MyApp(),
+        'start': (BuildContext context) => new QuizApp(),
         'quiz': (BuildContext context) => new QuizScreen(),
         'highscore': (BuildContext context) => new HighScoreScreen(),
       },
@@ -62,6 +83,10 @@ class MyCustomFormState extends State<MyCustomForm> {
   }
 
   saveTeam(String name) async {
+    User user = new User("sdads");
+    final FirebaseDatabase database = FirebaseDatabase(app:app);
+    var userreference = database.reference().child("user");
+    userreference.push().set(user.toJson());
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('teamName', name);
   }
@@ -80,7 +105,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     fit: BoxFit.cover),
               ),
               Text('Kies een naam voor je team',
-                  style: Theme.of(context).textTheme.headline),
+                  style: TextStyle(fontWeight: FontWeight.bold)),
               TextFormField(
                 controller: nameController,
                 validator: (value) {
@@ -92,7 +117,7 @@ class MyCustomFormState extends State<MyCustomForm> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 64.0),
                 child: RaisedButton(
-                    onPressed: () {
+                    onPressed: () {             
                       if (_formKey.currentState.validate()) {
                         saveTeam(nameController.text);
                         Navigator.pushReplacementNamed(
