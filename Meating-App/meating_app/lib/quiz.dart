@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'piechart.dart';
 import 'dart:math';
 import 'package:angles/angles.dart';
+import './model/question.dart';
 
 class QuizScreen extends StatelessWidget {
   @override
@@ -21,7 +22,7 @@ class QuizForm extends StatefulWidget {
 }
 
 class QuizFormState extends State<QuizForm> {
-  final List<String> questions = new List<String>();
+  final List<Question> questions = new List<Question>();
   double _percentage = 0;
   int _position = 0;
 
@@ -29,9 +30,10 @@ class QuizFormState extends State<QuizForm> {
 
   @override
   void initState() {
-    questions.add(
-        'Hoeveel procent van alle verkochte smartphones in 2017 had Android als OS?');
-    questions.add('Hoeveel procent van de aarde is bedekt in water?');
+    questions.add(new Question(
+        'Hoeveel procent van alle verkochte smartphones in 2017 had Android als OS?', 87));
+    questions.add(new Question(
+      'Hoeveel procent van de aarde is bedekt in water?', 70));
 
     super.initState();
   }
@@ -55,7 +57,7 @@ class QuizFormState extends State<QuizForm> {
               SizedBox(height: 30.0),
               Column(
                 children: <Widget>[
-                  Text(questions[_position],
+                  Text(questions[_position].question,
                       style: Theme.of(context).textTheme.title),
                   SizedBox(height: 80.0),
                   SizedBox(
