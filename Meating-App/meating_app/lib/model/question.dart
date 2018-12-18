@@ -3,7 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 class Question{
   String key;
   String question;
-  int awnser;
+  double awnser;
 
   Question(this.question, this.awnser);
 

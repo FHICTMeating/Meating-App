@@ -25,15 +25,17 @@ class QuizFormState extends State<QuizForm> {
   final List<Question> questions = new List<Question>();
   double _percentage = 0;
   int _position = 0;
+  double _difference = 0;
+  bool _showAnswer = false;
 
   Offset panPos = new Offset(0, 0);
 
   @override
   void initState() {
     questions.add(new Question(
-        'Hoeveel procent van alle verkochte smartphones in 2017 had Android als OS?', 87));
+        'Hoeveel procent van alle verkochte smartphones in 2017 had Android als OS?', 87.8));
     questions.add(new Question(
-      'Hoeveel procent van de aarde is bedekt in water?', 70));
+      'Hoeveel procent van de aarde is bedekt in water?', 70.0));
 
     super.initState();
   }
@@ -44,6 +46,10 @@ class QuizFormState extends State<QuizForm> {
     double degrees = angle.degrees * (-1);
     if (degrees <= 0) degrees += 360;
     return (degrees / 360 * 100);
+  }
+
+  double calculateDifference(double answer, double guess){
+    return answer - guess;
   }
 
   @override
@@ -69,6 +75,7 @@ class QuizFormState extends State<QuizForm> {
                           var center = new Offset(
                               context.size.width / 2, context.size.height / 2);
                           _percentage = calculatePercentage(panPos, center);
+                          _difference = calculateDifference(questions[_position].awnser, _percentage);
                         });
                       },
                       behavior: HitTestBehavior.opaque,
@@ -81,8 +88,8 @@ class QuizFormState extends State<QuizForm> {
                                       fillColor: Colors.green[700],
                                       backgroundColor: Colors.lightGreen,
                                       percentage: _percentage,
-                                      difference: -32,
-                                      showingAnswer: true)),
+                                      difference: _difference,
+                                      showingAnswer: _showAnswer)),
                             ),
                             Text(_percentage.round().toString() + '%',
                                 style: TextStyle(
@@ -102,6 +109,9 @@ class QuizFormState extends State<QuizForm> {
                     child: Text('Vorige'),
                     onPressed: () {
                       if (_position - 1 < 0) {
+                        setState((){
+                          _showAnswer = !_showAnswer;
+                        });
                         return null;
                       } else {
                         setState(() {
