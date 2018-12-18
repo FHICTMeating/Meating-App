@@ -39,7 +39,10 @@ class QuizFormState extends State<QuizForm> {
 
   double calculatePercentage(Offset pos1, Offset pos2){
     Angle angle = Angle.fromRadians(atan2(pos2.dx - pos1.dx,pos2.dy - pos1.dy));
-    return (angle.degrees/360 * 100);
+    double degrees = angle.degrees *(-1);
+    if (degrees <= 0)
+      degrees += 360;
+    return (degrees/360 * 100);
   }
 
   @override
