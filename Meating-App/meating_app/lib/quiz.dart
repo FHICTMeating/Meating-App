@@ -99,6 +99,7 @@ class QuizFormState extends State<QuizForm> {
                       return null;
                     } else {
                       setState(() {
+                        _position--;
                         _percentage = 0;
                       });
                     }
