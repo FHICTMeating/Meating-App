@@ -86,7 +86,7 @@ class MyCustomFormState extends State<MyCustomForm> {
     User user = new User(nameController.text);
     final FirebaseDatabase database = FirebaseDatabase(app:app);
     var userreference = database.reference().child("user");
-    userreference.push().set(user.toJson());
+    //userreference.push().set(user.toJson());
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('teamName', name);
   }

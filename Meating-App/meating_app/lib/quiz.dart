@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'piechart.dart';
+import 'dart:math';
+import 'package:angles/angles.dart';
 
 class QuizScreen extends StatelessWidget {
   @override
@@ -21,7 +23,10 @@ class QuizForm extends StatefulWidget {
 class QuizFormState extends State<QuizForm> {
   final List<String> questions = new List<String>();
   double _value = 0;
+  double _percentage = 0;
   int _position = 0;
+
+  Offset panPos = new Offset(0, 0);
 
   @override
   void initState() {
@@ -32,12 +37,16 @@ class QuizFormState extends State<QuizForm> {
     super.initState();
   }
 
+  double calculatePercentage(Offset pos1, Offset pos2){
+    Angle angle = Angle.fromRadians(atan2(pos2.dx - pos1.dx,pos2.dy - pos1.dy));
+    return (angle.degrees/360 * 100);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: ListView(
-          padding: EdgeInsets.symmetric(horizontal: 24.0),
+        child: Column(
           children: <Widget>[
             SizedBox(height: 30.0),
             Column(
@@ -45,30 +54,38 @@ class QuizFormState extends State<QuizForm> {
                 Text(questions[_position],
                     style: Theme.of(context).textTheme.title),
                 SizedBox(height: 80.0),
+                
                 SizedBox(
+                  child: GestureDetector(
+                            onPanUpdate: (details) {
+                              setState(() {                  
+                              RenderBox getBox = context.findRenderObject();
+                              panPos = getBox.globalToLocal(details.globalPosition);
+                              var center = new Offset(context.size.width/2, context.size.height/2);
+                              _percentage = calculatePercentage(panPos, center);
+                                });
+                            },behavior: HitTestBehavior.opaque,
+                            
                   child: Stack(
-                    alignment: FractionalOffset.center,
-                    children: <Widget>[
-                    Positioned.fill(
-                    child: CustomPaint(
-                      foregroundPainter: PieChart(
-                        fillColor: Colors.green[700],
-                        backgroundColor: Colors.lightGreen,
-                        percentage: _value
-                      )
-                    ),
-                    ),
-                    Text(
-                      _value.round().toString() + '%',style: TextStyle(fontSize: 25, color: Colors.white) 
-                      )
-                  ]),
+                      alignment: FractionalOffset.center,
+                      children: <Widget>[
+                        Positioned.fill(
+                            child: CustomPaint(
+                                foregroundPainter: PieChart(
+                                    fillColor: Colors.green[700],
+                                    backgroundColor: Colors.lightGreen,
+                                    percentage: _percentage)),
+                        ),
+                        Text(_percentage.round().toString() + '%',
+                            style: TextStyle(fontSize: 25, color: Colors.white))
+                      ]),),
                   height: 200,
                   width: 200,
                 ),
               ],
             ),
             SizedBox(height: 80.0),
-            Text(_value.round().toString() + '%'),
+            Text('x:'+ panPos.dx.toString() + ' y: ' + panPos.dy.toString()),
             Slider(
               value: _value,
               min: 0.0,
