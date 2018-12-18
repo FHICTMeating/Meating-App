@@ -72,7 +72,13 @@ class PieChart extends CustomPainter{
   }
 
   @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return true;
+  bool shouldRepaint(PieChart oldDelegate) {
+    if (oldDelegate.difference != this.difference)
+      return true;
+
+    if (oldDelegate.percentage != this.percentage)
+      return true;  
+
+    return false;
   }
 }
