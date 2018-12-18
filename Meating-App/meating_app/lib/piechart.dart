@@ -59,10 +59,9 @@ class PieChart extends CustomPainter{
     );
 
     if (showingAnswer){
-      var startAngle = difference < 0? (arcAngle + diffAngle/2) : (arcAngle - diffAngle);
       canvas.drawArc(
         new Rect.fromCircle(center: center,radius: radius), 
-        startAngle, 
+        -pi/2 + arcAngle, 
         diffAngle, 
         true, 
         diffFill

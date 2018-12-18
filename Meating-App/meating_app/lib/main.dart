@@ -94,23 +94,25 @@ class MyCustomFormState extends State<MyCustomForm> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.all(96.0),
-        child: new Form(
+        padding: const EdgeInsets.symmetric(horizontal: 96),
+        child: Center( 
+          child: new Form(
           key: _formKey,
-          child: Column(
+          child: SingleChildScrollView(
+            child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Container(
                 child: Image.asset('assets/images/meating-logo.png',
                     fit: BoxFit.cover),
               ),
-              Text('Kies een naam voor je team',
+              Text('Vul je naam in',
                   style: TextStyle(fontWeight: FontWeight.bold)),
               TextFormField(
                 controller: nameController,
                 validator: (value) {
                   if (value.isEmpty) {
-                    return 'Kies een naam voor je team';
+                    return 'Vul een naam in';
                   }
                 },
               ),
@@ -141,6 +143,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                     }
               )
             ],
+          ),
+          ),
           ),
         ));
   }
