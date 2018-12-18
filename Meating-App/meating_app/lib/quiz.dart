@@ -21,21 +21,35 @@ class QuizForm extends StatefulWidget {
   QuizFormState createState() => new QuizFormState();
 }
 
-class QuizFormState extends State<QuizForm> {
+class QuizFormState extends State<QuizForm> with SingleTickerProviderStateMixin{
   final List<Question> questions = new List<Question>();
-  double _percentage = 0;
+  double _percentage = 55;
   int _position = 0;
+  double _difference = 32;
 
   Offset panPos = new Offset(0, 0);
 
   @override
   void initState() {
-    questions.add(new Question(
-        'Hoeveel procent van alle verkochte smartphones in 2017 had Android als OS?', 87));
-    questions.add(new Question(
-      'Hoeveel procent van de aarde is bedekt in water?', 70));
+    // questions.add(new Question(
+    //     'Hoeveel procent van alle verkochte smartphones in 2017 had Android als OS?', 87));
+    // questions.add(new Question(
+    //   'Hoeveel procent van de aarde is bedekt in water?', 70));
 
     super.initState();
+    Animation<double> animation;
+    var controller = AnimationController(
+        duration: Duration(milliseconds: 1000), vsync: this);
+
+    var begin = _difference;
+      animation = Tween<double>(begin: begin, end: 0).animate(controller)
+      ..addListener(() {
+        setState(() {
+          _difference = animation.value;
+        });
+      });
+ 
+    controller.forward();
   }
 
   double calculatePercentage(Offset pos1, Offset pos2) {
@@ -57,8 +71,8 @@ class QuizFormState extends State<QuizForm> {
               SizedBox(height: 30.0),
               Column(
                 children: <Widget>[
-                  Text(questions[_position].question,
-                      style: Theme.of(context).textTheme.title),
+                  // Text(questions[_position].question,
+                  //     style: Theme.of(context).textTheme.title),
                   SizedBox(height: 80.0),
                   SizedBox(
                     child: GestureDetector(
@@ -81,7 +95,7 @@ class QuizFormState extends State<QuizForm> {
                                       fillColor: Colors.green[700],
                                       backgroundColor: Colors.lightGreen,
                                       percentage: _percentage,
-                                      difference: -32,
+                                      difference: _difference,
                                       showingAnswer: true)),
                             ),
                             Text(_percentage.round().toString() + '%',
