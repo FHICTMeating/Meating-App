@@ -25,16 +25,17 @@ class QuizFormState extends State<QuizForm> with SingleTickerProviderStateMixin{
   final List<Question> questions = new List<Question>();
   double _percentage = 55;
   int _position = 0;
-  double _difference = 32;
+  double _difference = 0;
+  bool _showAnswer = false;
 
   Offset panPos = new Offset(0, 0);
 
   @override
   void initState() {
-    // questions.add(new Question(
-    //     'Hoeveel procent van alle verkochte smartphones in 2017 had Android als OS?', 87));
-    // questions.add(new Question(
-    //   'Hoeveel procent van de aarde is bedekt in water?', 70));
+    questions.add(new Question(
+        'Hoeveel procent van alle verkochte smartphones in 2017 had Android als OS?', 87.8));
+    questions.add(new Question(
+      'Hoeveel procent van de aarde is bedekt in water?', 70.0));
 
     super.initState();
     Animation<double> animation;
@@ -60,6 +61,10 @@ class QuizFormState extends State<QuizForm> with SingleTickerProviderStateMixin{
     return (degrees / 360 * 100);
   }
 
+  double calculateDifference(double answer, double guess){
+    return answer - guess;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,6 +88,7 @@ class QuizFormState extends State<QuizForm> with SingleTickerProviderStateMixin{
                           var center = new Offset(
                               context.size.width / 2, context.size.height / 2);
                           _percentage = calculatePercentage(panPos, center);
+                          _difference = calculateDifference(questions[_position].awnser, _percentage);
                         });
                       },
                       behavior: HitTestBehavior.opaque,
@@ -96,7 +102,7 @@ class QuizFormState extends State<QuizForm> with SingleTickerProviderStateMixin{
                                       backgroundColor: Colors.lightGreen,
                                       percentage: _percentage,
                                       difference: _difference,
-                                      showingAnswer: true)),
+                                      showingAnswer: _showAnswer)),
                             ),
                             Text(_percentage.round().toString() + '%',
                                 style: TextStyle(
@@ -116,6 +122,9 @@ class QuizFormState extends State<QuizForm> with SingleTickerProviderStateMixin{
                     child: Text('Vorige'),
                     onPressed: () {
                       if (_position - 1 < 0) {
+                        setState((){
+                          _showAnswer = !_showAnswer;
+                        });
                         return null;
                       } else {
                         setState(() {
