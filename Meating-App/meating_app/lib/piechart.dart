@@ -5,14 +5,20 @@ class PieChart extends CustomPainter{
 
   Color fillColor;
   Color backgroundColor;
+  Color differenceColor = Colors.red;
 
   double percentage;
+  double difference = 0;
+
+  bool showingAnswer = true;
 
   PieChart(
     {
       this.fillColor,
       this.backgroundColor,
-      this.percentage
+      this.percentage,
+      this.difference,
+      this.showingAnswer,
     }
   );
 
@@ -27,7 +33,13 @@ class PieChart extends CustomPainter{
     back.color = this.backgroundColor;
     back.style = PaintingStyle.fill;
 
+    Paint diffFill = new Paint();
+    diffFill.color = this.differenceColor;
+    diffFill.style = PaintingStyle.fill;
+
+
     double arcAngle = 2 * pi * (percentage / 100);
+    double diffAngle = 2 * pi * (difference / 100);
 
     Offset center  = new Offset(size.width/2, size.height/2);
     double radius  = min(size.width/2,size.height/2);
@@ -45,6 +57,17 @@ class PieChart extends CustomPainter{
       true, 
       fill
     );
+
+    if (showingAnswer){
+      var startAngle = difference < 0? (arcAngle + diffAngle/2) : (arcAngle - diffAngle);
+      canvas.drawArc(
+        new Rect.fromCircle(center: center,radius: radius), 
+        startAngle, 
+        diffAngle, 
+        true, 
+        diffFill
+      );
+    }
     
   }
 

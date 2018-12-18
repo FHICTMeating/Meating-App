@@ -80,7 +80,9 @@ class QuizFormState extends State<QuizForm> {
                                   foregroundPainter: PieChart(
                                       fillColor: Colors.green[700],
                                       backgroundColor: Colors.lightGreen,
-                                      percentage: _percentage)),
+                                      percentage: _percentage,
+                                      difference: -32,
+                                      showingAnswer: true)),
                             ),
                             Text(_percentage.round().toString() + '%',
                                 style: TextStyle(
