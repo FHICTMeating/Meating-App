@@ -99,8 +99,6 @@ class QuizFormState extends State<QuizForm> {
                       return null;
                     } else {
                       setState(() {
-                        _position--;
-                        _value = 0;
                         _percentage = 0;
                       });
                     }
@@ -120,7 +118,6 @@ class QuizFormState extends State<QuizForm> {
                     } else {
                       setState(() {
                         _position++;
-                        _value = 0;
                         _percentage = 0;
                         //send data to firebase
                       });
