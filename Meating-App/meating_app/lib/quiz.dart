@@ -26,7 +26,11 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
   double _percentage = 55;
   int _position = 0;
   double _difference = 0;
+
   bool _showAnswer = false;
+  bool _canResume = false;
+
+  String _buttonText = "Beantwoorden";
 
   Offset panPos = new Offset(0, 0);
 
@@ -53,6 +57,8 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
     _difference = calculateDifference(questions[_position].awnser, _percentage);
     _showAnswer = true;
 
+    _buttonText = "...";
+
     Animation<double> animation;
     var controller = AnimationController(
         duration: Duration(milliseconds: 5000), vsync: this);
@@ -67,9 +73,8 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
           setState(() {
-            _position++;
-            _percentage = 0;
-            _difference = 0;
+            _canResume = true;
+            _buttonText = "Verder";
           });
         }
       });
@@ -89,7 +94,6 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
           padding: EdgeInsets.all(24),
           child: Column(
             children: <Widget>[
-              SizedBox(height: 30.0),
               Column(
                 children: <Widget>[
                   Text(questions[_position].question,
@@ -134,27 +138,13 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
                 alignment: MainAxisAlignment.center,
                 children: <Widget>[
                   RaisedButton(
-                    child: Text('Vorige'),
-                    onPressed: () {
-                      if (_position - 1 < 0) {
-                        setState(() {
-                          _showAnswer = !_showAnswer;
-                        });
-                        return null;
-                      } else {
-                        setState(() {
-                          _position--;
-                          _percentage = 0;
-                        });
-                      }
-                    },
-                  ),
-                  RaisedButton(
                     color: Theme.of(context).accentColor,
                     textColor: Colors.white,
                     splashColor: Colors.blueGrey,
-                    child: Text('Volgende'),
+                    child: Text(_buttonText),
                     onPressed: () {
+                      if (_showAnswer && !_canResume) return null;
+
                       if (_position + 1 == questions.length) {
                         Navigator.pushReplacementNamed(
                           context,
@@ -164,6 +154,18 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
                         setState(() {
                           answerQuestion();
                           //send data to firebase
+                        });
+                      }
+
+                      if (_canResume) {
+                        setState(() {
+                          _position++;
+                          _percentage = 0;
+                          _difference = 0;
+                          _canResume = false;
+                          _showAnswer = false;
+                          _buttonText = "Beantwoorden";
+                          return null;
                         });
                       }
                     },
