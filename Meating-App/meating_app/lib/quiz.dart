@@ -116,12 +116,13 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
         child: Padding(
           padding: EdgeInsets.all(24),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               Column(
                 children: <Widget>[
                   Text(questions[_position].question,
                       style: Theme.of(context).textTheme.title),
-                  SizedBox(height: 120),
+                  SizedBox(height: 100),
                   IgnorePointer(
                     ignoring: _showAnswer || _canResume,
                     child: SizedBox(
@@ -154,8 +155,8 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
                                       fontSize: 25, color: Colors.white))
                             ]),
                       ),
-                      height: 200,
-                      width: 200,
+                      height: 320,
+                      width: 320,
                     ),
                   ),
                 ],
