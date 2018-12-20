@@ -145,18 +145,6 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
                     onPressed: () {
                       if (_showAnswer && !_canResume) return null;
 
-                      if (_position + 1 == questions.length) {
-                        Navigator.pushReplacementNamed(
-                          context,
-                          'highscore',
-                        );
-                      } else {
-                        setState(() {
-                          answerQuestion();
-                          //send data to firebase
-                        });
-                      }
-
                       if (_canResume) {
                         setState(() {
                           _position++;
@@ -165,8 +153,21 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
                           _canResume = false;
                           _showAnswer = false;
                           _buttonText = "Beantwoorden";
-                          return null;
                         });
+                      } else {
+                        setState(() {
+                          answerQuestion();
+                          //send data to firebase
+                        });
+                      }
+
+                      if (_position == questions.length) {
+                        _position = 0;
+                        _canResume = false;
+                        Navigator.pushReplacementNamed(
+                          context,
+                          'highscore',
+                        );
                       }
                     },
                   ),
