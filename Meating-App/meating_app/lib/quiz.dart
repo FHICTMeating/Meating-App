@@ -99,37 +99,41 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
                   Text(questions[_position].question,
                       style: Theme.of(context).textTheme.title),
                   SizedBox(height: 80.0),
-                  SizedBox(
-                    child: GestureDetector(
-                      onPanUpdate: (details) {
-                        setState(() {
-                          RenderBox getBox = context.findRenderObject();
-                          panPos = getBox.globalToLocal(details.globalPosition);
-                          var center = new Offset(
-                              context.size.width / 2, context.size.height / 2);
-                          _percentage = calculatePercentage(panPos, center);
-                        });
-                      },
-                      behavior: HitTestBehavior.opaque,
-                      child: Stack(
-                          alignment: FractionalOffset.center,
-                          children: <Widget>[
-                            Positioned.fill(
-                              child: CustomPaint(
-                                  foregroundPainter: PieChart(
-                                      fillColor: Colors.green[700],
-                                      backgroundColor: Colors.lightGreen,
-                                      percentage: _percentage,
-                                      difference: _difference,
-                                      showingAnswer: _showAnswer)),
-                            ),
-                            Text(_percentage.round().toString() + '%',
-                                style: TextStyle(
-                                    fontSize: 25, color: Colors.white))
-                          ]),
+                  IgnorePointer(
+                    ignoring: _showAnswer || !_canResume,
+                    child: SizedBox(
+                      child: GestureDetector(
+                        onPanUpdate: (details) {
+                          setState(() {
+                            RenderBox getBox = context.findRenderObject();
+                            panPos =
+                                getBox.globalToLocal(details.globalPosition);
+                            var center = new Offset(context.size.width / 2,
+                                context.size.height / 2);
+                            _percentage = calculatePercentage(panPos, center);
+                          });
+                        },
+                        behavior: HitTestBehavior.opaque,
+                        child: Stack(
+                            alignment: FractionalOffset.center,
+                            children: <Widget>[
+                              Positioned.fill(
+                                child: CustomPaint(
+                                    foregroundPainter: PieChart(
+                                        fillColor: Colors.green[700],
+                                        backgroundColor: Colors.lightGreen,
+                                        percentage: _percentage,
+                                        difference: _difference,
+                                        showingAnswer: _showAnswer)),
+                              ),
+                              Text(_percentage.round().toString() + '%',
+                                  style: TextStyle(
+                                      fontSize: 25, color: Colors.white))
+                            ]),
+                      ),
+                      height: 200,
+                      width: 200,
                     ),
-                    height: 200,
-                    width: 200,
                   ),
                 ],
               ),
