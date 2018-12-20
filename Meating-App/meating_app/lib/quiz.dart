@@ -26,6 +26,7 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
   double _percentage = 0;
   int _position = 0;
   double _difference = 0;
+  double _score = 0;
   String _niceAnswer = "Nice!";
   String _diffAnswer = "";
 
@@ -69,8 +70,13 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
     }
   }
 
+  void calculateScore(double difference){
+    _score += 100 - difference.round().abs();
+  }
+
   void answerQuestion() {
     _difference = calculateDifference(questions[_position].awnser, _percentage);
+    calculateScore(_difference);
     setLabels();
     _showAnswer = true;
 
@@ -202,7 +208,8 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
                     },
                   ),
                 ],
-              )
+              ),
+              Text("Score: " + _score.round().toString()),
             ],
           ),
         ),
