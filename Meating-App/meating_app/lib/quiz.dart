@@ -137,7 +137,7 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
                             panPos =
                                 getBox.globalToLocal(details.globalPosition);
                             var center = new Offset(context.size.width / 2,
-                                context.size.height / 2);
+                                (context.size.height - panPos.dy)/2);
                             _percentage = calculatePercentage(panPos, center);
                           });
                         },
