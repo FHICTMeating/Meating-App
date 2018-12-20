@@ -154,7 +154,6 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
                   ),
                 ],
               ),
-              SizedBox(height: 40.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -164,7 +163,6 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
                       : Container(),
                 ],
               ),
-              SizedBox(height: 40.0),
               ButtonBar(
                 alignment: MainAxisAlignment.center,
                 children: <Widget>[
