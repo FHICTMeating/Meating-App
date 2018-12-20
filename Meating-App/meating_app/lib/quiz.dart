@@ -23,9 +23,12 @@ class QuizForm extends StatefulWidget {
 
 class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
   final List<Question> questions = new List<Question>();
-  double _percentage = 55;
+  double _percentage = 0;
   int _position = 0;
   double _difference = 0;
+  double _score = 0;
+  String _niceAnswer = "Nice!";
+  String _diffAnswer = "";
 
   bool _showAnswer = false;
   bool _canResume = false;
@@ -54,42 +57,52 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
     return (degrees / 360 * 100);
   }
 
+  void setLabels() {
+    if (_difference.round() == 0) {
+      _visible = true;
+      _niceAnswer = "Excellent!";
+      _diffAnswer = "";
+    } else if (_difference.round() >= -10 && _difference.round() < 10) {
+      _visible = true;
+      _niceAnswer = "Nice!";
+      _diffAnswer =
+          " Slechts " + _difference.round().abs().toString() + "% ervan af.";
+    }
+  }
+
+  void calculateScore(double difference){
+    _score += 100 - difference.round().abs();
+  }
+
   void answerQuestion() {
     _difference = calculateDifference(questions[_position].awnser, _percentage);
-    if (_difference.round() == 0) {
-      setState(() {
-        _visible = true;
-        _showAnswer = true;
-        _canResume = true;
-      });
-    } else {
-      _visible = false;
-      _showAnswer = true;
+    calculateScore(_difference);
+    setLabels();
+    _showAnswer = true;
 
-      _buttonText = "...";
+    _buttonText = "...";
 
-      Animation<double> animation;
-      var controller = AnimationController(
-          duration: Duration(milliseconds: 5000), vsync: this);
+    Animation<double> animation;
+    var controller = AnimationController(
+        duration: Duration(milliseconds: 5000), vsync: this);
 
-      var end = _difference;
-      animation = Tween<double>(begin: 0, end: end).animate(controller)
-        ..addListener(() {
-          setState(() {
-            _difference = animation.value;
-          });
-        })
-        ..addStatusListener((status) {
-          if (status == AnimationStatus.completed) {
-            setState(() {
-              _canResume = true;
-              _buttonText = "Verder";
-            });
-          }
+    var end = _difference;
+    animation = Tween<double>(begin: 0, end: end).animate(controller)
+      ..addListener(() {
+        setState(() {
+          _difference = animation.value;
         });
+      })
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          setState(() {
+            _canResume = true;
+            _buttonText = "Verder";
+          });
+        }
+      });
 
-      controller.forward();
-    }
+    controller.forward();
   }
 
   double calculateDifference(double answer, double guess) {
@@ -103,7 +116,6 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
         child: Padding(
           padding: EdgeInsets.all(24),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               Column(
                 children: <Widget>[
@@ -142,8 +154,8 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
                                       fontSize: 25, color: Colors.white))
                             ]),
                       ),
-                      height: 400,
-                      width: 400,
+                      height: 200,
+                      width: 200,
                     ),
                   ),
                 ],
@@ -152,7 +164,8 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   _visible
-                      ? Text("Nice!", style: TextStyle(fontSize: 25))
+                      ? Text(_niceAnswer + _diffAnswer,
+                          style: TextStyle(fontSize: 25))
                       : Container(),
                 ],
               ),
@@ -195,7 +208,8 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
                     },
                   ),
                 ],
-              )
+              ),
+              Text("Score: " + _score.round().toString()),
             ],
           ),
         ),
