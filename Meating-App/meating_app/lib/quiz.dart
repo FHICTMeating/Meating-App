@@ -29,6 +29,7 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
 
   bool _showAnswer = false;
   bool _canResume = false;
+  bool _visible = false;
 
   String _buttonText = "Beantwoorden";
 
@@ -38,7 +39,7 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
   void initState() {
     questions.add(new Question(
         'Hoeveel procent van alle verkochte smartphones in 2017 had Android als OS?',
-        87.8));
+        88));
     questions.add(
         new Question('Hoeveel procent van de aarde is bedekt in water?', 70.0));
 
@@ -55,31 +56,40 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
 
   void answerQuestion() {
     _difference = calculateDifference(questions[_position].awnser, _percentage);
-    _showAnswer = true;
-
-    _buttonText = "...";
-
-    Animation<double> animation;
-    var controller = AnimationController(
-        duration: Duration(milliseconds: 5000), vsync: this);
-
-    var end = _difference;
-    animation = Tween<double>(begin: 0, end: end).animate(controller)
-      ..addListener(() {
-        setState(() {
-          _difference = animation.value;
-        });
-      })
-      ..addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          setState(() {
-            _canResume = true;
-            _buttonText = "Verder";
-          });
-        }
+    if (_difference.round() == 0) {
+      setState(() {
+        _visible = true;
+        _showAnswer = true;
+        _canResume = true;
       });
+    } else {
+      _visible = false;
+      _showAnswer = true;
 
-    controller.forward();
+      _buttonText = "...";
+
+      Animation<double> animation;
+      var controller = AnimationController(
+          duration: Duration(milliseconds: 5000), vsync: this);
+
+      var end = _difference;
+      animation = Tween<double>(begin: 0, end: end).animate(controller)
+        ..addListener(() {
+          setState(() {
+            _difference = animation.value;
+          });
+        })
+        ..addStatusListener((status) {
+          if (status == AnimationStatus.completed) {
+            setState(() {
+              _canResume = true;
+              _buttonText = "Verder";
+            });
+          }
+        });
+
+      controller.forward();
+    }
   }
 
   double calculateDifference(double answer, double guess) {
@@ -138,6 +148,16 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
                   ),
                 ],
               ),
+              SizedBox(height: 40.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  _visible
+                      ? Text("Nice!", style: TextStyle(fontSize: 25))
+                      : Container(),
+                ],
+              ),
+              SizedBox(height: 40.0),
               ButtonBar(
                 alignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -156,6 +176,7 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
                           _difference = 0;
                           _canResume = false;
                           _showAnswer = false;
+                          _visible = false;
                           _buttonText = "Beantwoorden";
                         });
                       } else {
