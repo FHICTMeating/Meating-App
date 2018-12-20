@@ -58,16 +58,16 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
   }
 
   void setLabels() {
-    if (_difference.round() == 0) {
+    if (_difference.round().abs() <= 5) {
       _visible = true;
       _niceAnswer = "Excellent!";
-      _diffAnswer = "";
-    } else if (_difference.round().abs() < 10) {
+      _diffAnswer = " Slechts " + _difference.round().abs().toString() + "% ervan af!";
+    } else if (_difference.round().abs() <= 10) {
       _visible = true;
       _niceAnswer = "Nice!";
       _diffAnswer =
           " Slechts " + _difference.round().abs().toString() + "% ervan af!";
-    } else if (_difference.round().abs() < 30){
+    } else if (_difference.round().abs() <= 30){
       _visible = true;
       _niceAnswer = "Goedzo!";
       _diffAnswer = " Je zit er " + _difference.round().abs().toString() + "% ervan af.";
