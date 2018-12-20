@@ -100,7 +100,7 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
                       style: Theme.of(context).textTheme.title),
                   SizedBox(height: 80.0),
                   IgnorePointer(
-                    ignoring: _showAnswer || !_canResume,
+                    ignoring: _showAnswer || _canResume,
                     child: SizedBox(
                       child: GestureDetector(
                         onPanUpdate: (details) {
