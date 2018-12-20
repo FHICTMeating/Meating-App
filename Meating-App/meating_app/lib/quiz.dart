@@ -70,6 +70,10 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
     } else if (_difference.round().abs() <= 30){
       _visible = true;
       _niceAnswer = "Goedzo!";
+      _diffAnswer = " Je zit er slechts " + _difference.round().abs().toString() + "% ervan af.";
+    } else{
+      _visible = true;
+      _niceAnswer = "Helaas!";
       _diffAnswer = " Je zit er " + _difference.round().abs().toString() + "% ervan af.";
     }
   }
