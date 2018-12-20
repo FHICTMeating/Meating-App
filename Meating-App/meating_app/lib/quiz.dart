@@ -93,6 +93,7 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
         child: Padding(
           padding: EdgeInsets.all(24),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               Column(
                 children: <Widget>[
@@ -131,13 +132,12 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
                                       fontSize: 25, color: Colors.white))
                             ]),
                       ),
-                      height: 200,
-                      width: 200,
+                      height: 400,
+                      width: 400,
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 100.0),
               ButtonBar(
                 alignment: MainAxisAlignment.center,
                 children: <Widget>[
