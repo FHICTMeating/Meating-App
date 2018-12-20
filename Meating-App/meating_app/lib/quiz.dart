@@ -109,7 +109,7 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
                 children: <Widget>[
                   Text(questions[_position].question,
                       style: Theme.of(context).textTheme.title),
-                  SizedBox(height: 80.0),
+                  SizedBox(height: 120),
                   IgnorePointer(
                     ignoring: _showAnswer || _canResume,
                     child: SizedBox(

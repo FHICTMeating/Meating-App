@@ -47,8 +47,16 @@ class QuizApp extends StatelessWidget {
         textTheme: TextTheme(
           headline: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
           title: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          body1: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+          body1: TextStyle(fontSize: 14.0),
+          button: TextStyle(fontSize: 20)
         ),
+        buttonTheme: ButtonThemeData(
+          minWidth: 400,
+          height: 60,
+          buttonColor: Colors.green[200],
+          textTheme: ButtonTextTheme.normal,
+          shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+        )
       ),
       home: Scaffold(
         appBar: AppBar(
@@ -101,13 +109,14 @@ class MyCustomFormState extends State<MyCustomForm> {
           child: SingleChildScrollView(
             child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Container(
                 child: Image.asset('assets/images/meating-logo.png',
                     fit: BoxFit.cover),
               ),
               Text('Vul je naam in',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
               TextFormField(
                 controller: nameController,
                 validator: (value) {
