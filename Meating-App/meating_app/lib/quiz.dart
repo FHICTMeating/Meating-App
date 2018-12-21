@@ -61,24 +61,28 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
     if (_difference.round().abs() <= 5) {
       _visible = true;
       _niceAnswer = "Excellent!";
-      _diffAnswer = " Slechts " + _difference.round().abs().toString() + "% ervan af!";
+      _diffAnswer =
+          " Slechts " + _difference.round().abs().toString() + "% ervan af!";
     } else if (_difference.round().abs() <= 10) {
       _visible = true;
       _niceAnswer = "Nice!";
       _diffAnswer =
           " Slechts " + _difference.round().abs().toString() + "% ervan af!";
-    } else if (_difference.round().abs() <= 30){
+    } else if (_difference.round().abs() <= 30) {
       _visible = true;
       _niceAnswer = "Goedzo!";
-      _diffAnswer = " Je zit er slechts " + _difference.round().abs().toString() + "% ervan af.";
-    } else{
+      _diffAnswer = " Je zit er slechts " +
+          _difference.round().abs().toString() +
+          "% van af.";
+    } else {
       _visible = true;
       _niceAnswer = "Helaas!";
-      _diffAnswer = " Je zit er " + _difference.round().abs().toString() + "% ervan af.";
+      _diffAnswer =
+          " Je zit er " + _difference.round().abs().toString() + "% van af.";
     }
   }
 
-  void calculateScore(double difference){
+  void calculateScore(double difference) {
     _score += 100 - difference.round().abs();
   }
 
@@ -117,6 +121,39 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
     return answer - guess;
   }
 
+  Function handleButtonClick() {
+    if (_showAnswer && !_canResume || _percentage < 1) return null;
+
+    if (_canResume) {
+      return () {
+        setState(() {
+          _position++;
+          _percentage = 0;
+          _difference = 0;
+          _canResume = false;
+          _showAnswer = false;
+          _visible = false;
+          _buttonText = "Beantwoorden";
+
+          if (_position == questions.length) {
+            _position = 0;
+            Navigator.pushReplacementNamed(
+              context,
+              'highscore',
+            );
+          }
+        });
+      };
+    } else {
+      return () {
+        setState(() {
+          answerQuestion();
+          //send data to firebase
+        });
+      };
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -141,7 +178,7 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
                             panPos =
                                 getBox.globalToLocal(details.globalPosition);
                             var center = new Offset(context.size.width / 2,
-                                (context.size.height - panPos.dy)/2);
+                                (context.size.height - panPos.dy) / 2);
                             _percentage = calculatePercentage(panPos, center);
                           });
                         },
@@ -185,36 +222,9 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
                     color: Theme.of(context).accentColor,
                     textColor: Colors.white,
                     splashColor: Colors.blueGrey,
+                    disabledColor: Colors.green[100],
                     child: Text(_buttonText),
-                    onPressed: () {
-                      if (_showAnswer && !_canResume) return null;
-
-                      if (_canResume) {
-                        setState(() {
-                          _position++;
-                          _percentage = 0;
-                          _difference = 0;
-                          _canResume = false;
-                          _showAnswer = false;
-                          _visible = false;
-                          _buttonText = "Beantwoorden";
-                        });
-                      } else {
-                        setState(() {
-                          answerQuestion();
-                          //send data to firebase
-                        });
-                      }
-
-                      if (_position == questions.length) {
-                        _position = 0;
-                        _canResume = false;
-                        Navigator.pushReplacementNamed(
-                          context,
-                          'highscore',
-                        );
-                      }
-                    },
+                    onPressed: handleButtonClick(),
                   ),
                 ],
               ),

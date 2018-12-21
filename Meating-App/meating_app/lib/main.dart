@@ -48,13 +48,14 @@ class QuizApp extends StatelessWidget {
           headline: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
           title: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           body1: TextStyle(fontSize: 14.0),
-          button: TextStyle(fontSize: 20)
+          button: TextStyle(fontSize: 20, color: Colors.white)
         ),
         buttonTheme: ButtonThemeData(
-          minWidth: 400,
+          minWidth: 300,
           height: 60,
-          buttonColor: Colors.green[200],
-          textTheme: ButtonTextTheme.normal,
+          buttonColor: Colors.green[500],
+          disabledColor: Colors.lightGreen,
+          textTheme: ButtonTextTheme.primary,
           shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
         )
       ),
