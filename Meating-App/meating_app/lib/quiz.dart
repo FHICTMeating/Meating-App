@@ -94,9 +94,10 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
 
     _buttonText = "...";
 
+    var time = (_difference * 80).abs().floor();
     Animation<double> animation;
     var controller = AnimationController(
-        duration: Duration(milliseconds: 5000), vsync: this);
+        duration: Duration(milliseconds: time), vsync: this);
 
     var end = _difference;
     animation = Tween<double>(begin: 0, end: end).animate(controller)
@@ -197,7 +198,7 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
                               ),
                               Text(_percentage.round().toString() + '%',
                                   style: TextStyle(
-                                      fontSize: 25, color: Colors.white))
+                                      fontSize: 25, color: Colors.white)),
                             ]),
                       ),
                       height: 320,

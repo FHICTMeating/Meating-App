@@ -39,7 +39,7 @@ class PieChart extends CustomPainter{
 
 
     double arcAngle = 2 * pi * (percentage / 100);
-    double diffAngle = 2 * pi * (difference / 100);
+    double diffAngle = difference >= -0.99 && difference <= 0.99 ? 0 : 2 * pi * (difference / 100);
 
     Offset center  = new Offset(size.width/2, size.height/2);
     double radius  = min(size.width/2,size.height/2);
