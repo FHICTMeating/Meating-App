@@ -7,6 +7,8 @@ class Question{
 
   Question(this.question, this.awnser);
 
+  Question.withKey(this.question, this.awnser, this.key);
+
   Question.fromSnapshot(DataSnapshot snapshot) 
   : key = snapshot.key,
     question = snapshot.value["question"],
