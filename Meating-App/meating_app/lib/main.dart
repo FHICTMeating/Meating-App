@@ -40,13 +40,13 @@ class QuizApp extends StatelessWidget {
         accentColor: Colors.orange[800],
 
         // Define the default Font Family
-        fontFamily: 'Montserrat',
+        fontFamily: 'Furore',
 
         // Define the default TextTheme. Use this to specify the default
         // text styling for headlines, titles, bodies of text, and more.
         textTheme: TextTheme(
-          headline: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
-          title: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          headline: TextStyle(fontSize: 30.0),
+          title: TextStyle(fontSize: 20),
           body1: TextStyle(fontSize: 14.0),
           button: TextStyle(fontSize: 20, color: Colors.white)
         ),
