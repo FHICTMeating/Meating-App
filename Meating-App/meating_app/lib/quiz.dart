@@ -190,8 +190,8 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
                               Positioned.fill(
                                 child: CustomPaint(
                                     foregroundPainter: PieChart(
-                                        fillColor: Colors.green[700],
-                                        backgroundColor: Colors.lightGreen,
+                                        fillColor: Colors.orange[700],
+                                        backgroundColor: Colors.orange[400],
                                         percentage: _percentage,
                                         difference: _difference,
                                         showingAnswer: _showAnswer)),
@@ -223,7 +223,7 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
                     color: Theme.of(context).accentColor,
                     textColor: Colors.white,
                     splashColor: Colors.blueGrey,
-                    disabledColor: Colors.green[100],
+                    disabledColor: Colors.orange[400],
                     child: Text(_buttonText),
                     onPressed: handleButtonClick(),
                   ),

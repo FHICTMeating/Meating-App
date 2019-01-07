@@ -30,14 +30,14 @@ void main() async{
 class QuizApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final appTitle = 'Meating Quiz';	
+    final appTitle = '';	
     return MaterialApp(
-      title: appTitle,
+      title: '',
       theme: ThemeData(
         // Define the default Brightness and Colors
-        brightness: Brightness.light,
-        primaryColor: Colors.green[500],
-        accentColor: Colors.green[600],
+        brightness: Brightness.dark,
+        primaryColor: Colors.grey[800],
+        accentColor: Colors.orange[800],
 
         // Define the default Font Family
         fontFamily: 'Montserrat',
@@ -53,9 +53,9 @@ class QuizApp extends StatelessWidget {
         buttonTheme: ButtonThemeData(
           minWidth: 300,
           height: 60,
-          buttonColor: Colors.green[500],
-          disabledColor: Colors.lightGreen,
-          textTheme: ButtonTextTheme.primary,
+          buttonColor: Colors.orange[700],
+          disabledColor: Colors.orange[400],
+          textTheme: ButtonTextTheme.normal,
           shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
         )
       ),
