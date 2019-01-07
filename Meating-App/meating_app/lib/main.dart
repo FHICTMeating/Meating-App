@@ -30,25 +30,34 @@ void main() async{
 class QuizApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final appTitle = 'Meating Quiz';	
+    final appTitle = '';	
     return MaterialApp(
-      title: appTitle,
+      title: '',
       theme: ThemeData(
         // Define the default Brightness and Colors
-        brightness: Brightness.light,
-        primaryColor: Colors.green[500],
-        accentColor: Colors.green[600],
+        brightness: Brightness.dark,
+        primaryColor: Colors.grey[800],
+        accentColor: Colors.orange[800],
 
         // Define the default Font Family
-        fontFamily: 'Montserrat',
+        fontFamily: 'Furore',
 
         // Define the default TextTheme. Use this to specify the default
         // text styling for headlines, titles, bodies of text, and more.
         textTheme: TextTheme(
-          headline: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
-          title: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          body1: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+          headline: TextStyle(fontSize: 30.0),
+          title: TextStyle(fontSize: 20),
+          body1: TextStyle(fontSize: 14.0),
+          button: TextStyle(fontSize: 20, color: Colors.white)
         ),
+        buttonTheme: ButtonThemeData(
+          minWidth: 300,
+          height: 60,
+          buttonColor: Colors.orange[700],
+          disabledColor: Colors.orange[400],
+          textTheme: ButtonTextTheme.normal,
+          shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+        )
       ),
       home: Scaffold(
         appBar: AppBar(
@@ -86,7 +95,7 @@ class MyCustomFormState extends State<MyCustomForm> {
     User user = new User(nameController.text);
     final FirebaseDatabase database = FirebaseDatabase(app:app);
     var userreference = database.reference().child("user");
-    userreference.push().set(user.toJson());
+    //userreference.push().set(user.toJson());
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('teamName', name);
   }
@@ -94,23 +103,26 @@ class MyCustomFormState extends State<MyCustomForm> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.all(96.0),
-        child: new Form(
+        padding: const EdgeInsets.symmetric(horizontal: 96),
+        child: Center( 
+          child: new Form(
           key: _formKey,
-          child: Column(
+          child: SingleChildScrollView(
+            child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Container(
                 child: Image.asset('assets/images/meating-logo.png',
                     fit: BoxFit.cover),
               ),
-              Text('Kies een naam voor je team',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
+              Text('Vul je naam in',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
               TextFormField(
                 controller: nameController,
                 validator: (value) {
                   if (value.isEmpty) {
-                    return 'Kies een naam voor je team';
+                    return 'Vul een naam in';
                   }
                 },
               ),
@@ -141,6 +153,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                     }
               )
             ],
+          ),
+          ),
           ),
         ));
   }
