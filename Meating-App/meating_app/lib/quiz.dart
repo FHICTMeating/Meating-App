@@ -3,6 +3,8 @@ import 'piechart.dart';
 import 'dart:math';
 import 'package:angles/angles.dart';
 import './model/question.dart';
+import './repository/questionRepository.dart';
+import './repository/repository.dart';
 
 class QuizScreen extends StatelessWidget {
   @override
@@ -22,13 +24,15 @@ class QuizForm extends StatefulWidget {
 }
 
 class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
-  final List<Question> questions = new List<Question>();
+  List<Question> questions = new List<Question>();
   double _percentage = 0;
   int _position = 0;
   double _difference = 0;
   double _score = 0;
   String _niceAnswer = "Nice!";
   String _diffAnswer = "";
+
+  String _questionText = "";
 
   bool _showAnswer = false;
   bool _canResume = false;
@@ -40,12 +44,15 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    questions.add(new Question(
-        'Hoeveel procent van alle verkochte smartphones in 2017 had Android als OS?',
-        88));
-    questions.add(
-        new Question('Hoeveel procent van de aarde is bedekt in water?', 70.0));
-
+    Repository questionRepo = QuestionRepository();
+    questionRepo.init().then((_) {
+      questionRepo.selectAll().then((questionList) {
+        this.questions = questionList;
+        setState(() {
+          _questionText = this.questions[0].question;
+        });
+      });
+    });
     super.initState();
   }
 
@@ -128,6 +135,7 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
     if (_canResume) {
       return () {
         setState(() {
+          _questionText = questions[_position].question;
           _position++;
           _percentage = 0;
           _difference = 0;
@@ -135,6 +143,7 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
           _showAnswer = false;
           _visible = false;
           _buttonText = "Beantwoorden";
+         
 
           if (_position == questions.length) {
             _position = 0;
@@ -166,8 +175,7 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
             children: <Widget>[
               Column(
                 children: <Widget>[
-                  Text(questions[_position].question,
-                      style: Theme.of(context).textTheme.title),
+                  Text(_questionText, style: Theme.of(context).textTheme.title),
                   SizedBox(height: 100),
                   IgnorePointer(
                     ignoring: _showAnswer || _canResume,

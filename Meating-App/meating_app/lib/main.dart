@@ -9,21 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 FirebaseApp app;
   
-void main() async{
-  app = await FirebaseApp.configure(
-    name: 'db2',
-    options: Platform.isIOS
-        ? const FirebaseOptions(
-            googleAppID: '1:182815347842:ios:a0030deccf728cb7',
-            databaseURL: 'https://meating-app-48b2e.firebaseio.com',
-            gcmSenderID: '182815347842',
-          )
-        : const FirebaseOptions(
-            googleAppID: '1:182815347842:android:a0030deccf728cb7',
-            apiKey: 'AIzaSyCOWCfxNLpKHWjdBH0fB3WdfQ7Bb33pTjQ',
-            databaseURL: 'https://meating-app-48b2e.firebaseio.com',
-          ),
-  );
+void main(){
   runApp(QuizApp());
 }
 
@@ -92,10 +78,6 @@ class MyCustomFormState extends State<MyCustomForm> {
   }
 
   saveTeam(String name) async {
-    User user = new User(nameController.text);
-    final FirebaseDatabase database = FirebaseDatabase(app:app);
-    var userreference = database.reference().child("user");
-    //userreference.push().set(user.toJson());
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('teamName', name);
   }

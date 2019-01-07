@@ -14,7 +14,7 @@ class QuestionRepository extends Repository<Question>{
   Future init(){
     return super.init().then((app){
       this.database = FirebaseDatabase(app:app);
-      this.questionreference = this.database.reference().child("user");
+      this.questionreference = this.database.reference().child("question");
     });
   }
 
@@ -27,9 +27,9 @@ class QuestionRepository extends Repository<Question>{
     return questionreference.once().then((dataSnapshot){
       List<Question> questionList = new List<Question>();
       dataSnapshot.value.forEach((key,v){
-        var awnser = v["awnser"];
+        var answer = (v["answer"]/1);
         var question = v["question"];
-        questionList.add(new Question.withKey(question, awnser, key));
+        questionList.add(new Question.withKey(question, answer, key));
       });
       return questionList;
     });
