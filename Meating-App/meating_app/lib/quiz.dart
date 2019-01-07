@@ -135,7 +135,7 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
     if (_canResume) {
       return () {
         setState(() {
-          _questionText = questions[_position].question;
+          
           _position++;
           _percentage = 0;
           _difference = 0;
@@ -143,6 +143,10 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
           _showAnswer = false;
           _visible = false;
           _buttonText = "Beantwoorden";
+
+          if (_position < (questions.length)){
+          _questionText = questions[_position].question;
+          }
          
 
           if (_position == questions.length) {
