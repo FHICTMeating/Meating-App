@@ -4,23 +4,15 @@ import 'package:firebase_database/firebase_database.dart';
 
 class QuestionRepository extends Repository<Question>{
   
-  FirebaseDatabase database;
   DatabaseReference questionreference; 
 
-  QuestionRepository() : super(){
-
-  }
-
-  Future init(){
-    return super.init().then((app){
-      this.database = FirebaseDatabase(app:app);
-      this.questionreference = this.database.reference().child("question");
-    });
+  QuestionRepository(){
+    this.questionreference = FirebaseDatabase.instance.reference().child("question");
   }
 
   Future<Question> save(var params){
-    Question user = new Question(params["question"], params["awnser"]);
-    return questionreference.push().set(user.toJson());
+    Question question = new Question(params["question"], params["awnser"]);
+    return questionreference.push().set(question.toJson());
   }
 
   Future<List<Question>> selectAll(){

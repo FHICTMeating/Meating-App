@@ -16,6 +16,7 @@ class User{
 
   toJson(){
     return {
+      "key": key,
       "name": name,
       "score": score
     };

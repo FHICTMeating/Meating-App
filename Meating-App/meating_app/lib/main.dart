@@ -1,15 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'dart:io' show Platform;
-import 'model/user.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'quiz.dart';
 import 'highscore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import './repository/userRepository.dart';
+import './repository/repository.dart';
+import './model/user.dart';
+import 'dart:convert';
 
 FirebaseApp app;
   
-void main(){
+void main() async {
+  await FirebaseApp.configure(
+      name: 'db2',
+      options: Platform.isIOS
+          ? const FirebaseOptions(
+              googleAppID: '1:182815347842:ios:a0030deccf728cb7',
+              databaseURL: 'https://meating-app-48b2e.firebaseio.com',
+              gcmSenderID: '182815347842',
+            )
+          : const FirebaseOptions(
+              googleAppID: '1:182815347842:android:a0030deccf728cb7',
+              apiKey: 'AIzaSyCOWCfxNLpKHWjdBH0fB3WdfQ7Bb33pTjQ',
+              databaseURL: 'https://meating-app-48b2e.firebaseio.com',
+            ),
+  );
   runApp(QuizApp());
 }
 
@@ -71,15 +87,29 @@ class MyCustomFormState extends State<MyCustomForm> {
   final _formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
 
+  Repository userRepository;
+
   @override
   void dispose() {
     nameController.dispose();
     super.dispose();
   }
 
-  saveTeam(String name) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('teamName', name);
+  @override
+  void initState() {
+    userRepository = new UserRepository();
+    super.initState();
+  }
+
+  saveTeam(String name) {
+    SharedPreferences.getInstance()
+    .then((prefs){
+      userRepository.save({"name": name})
+        .then((user){
+          prefs.setString('user', jsonEncode(user));
+        });
+    });
+    
   }
 
   @override

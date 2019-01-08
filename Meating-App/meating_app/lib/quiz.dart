@@ -4,7 +4,11 @@ import 'dart:math';
 import 'package:angles/angles.dart';
 import './model/question.dart';
 import './repository/questionRepository.dart';
+import './repository/userRepository.dart';
 import './repository/repository.dart';
+import './model/user.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
 class QuizScreen extends StatelessWidget {
   @override
@@ -42,17 +46,27 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
 
   Offset panPos = new Offset(0, 0);
 
+  User currentUser;
+
+  Repository userRepository;
+
   @override
   void initState() {
-    Repository questionRepo = QuestionRepository();
-    questionRepo.init().then((_) {
-      questionRepo.selectAll().then((questionList) {
+  QuestionRepository().selectAll().then((questionList) {
         this.questions = questionList;
         setState(() {
           _questionText = this.questions[0].question;
         });
       });
-    });
+      userRepository = new UserRepository();
+
+      SharedPreferences.getInstance()
+        .then((prefs){
+          String json = prefs.getString('user');
+          var map = jsonDecode(json);
+          currentUser = new User.withKey(map["name"], map["score"], map["key"]);
+        });
+      
     super.initState();
   }
 
@@ -91,6 +105,8 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
 
   void calculateScore(double difference) {
     _score += 100 - difference.round().abs();
+    currentUser.score = _score.toInt();
+    userRepository.update(currentUser);
   }
 
   void answerQuestion() {
@@ -145,7 +161,7 @@ class QuizFormState extends State<QuizForm> with TickerProviderStateMixin {
           _buttonText = "Beantwoorden";
 
           if (_position < (questions.length)){
-          _questionText = questions[_position].question;
+            _questionText = questions[_position].question;
           }
          
 
