@@ -6,7 +6,6 @@ import 'highscore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import './repository/userRepository.dart';
 import './repository/repository.dart';
-import './model/user.dart';
 import 'dart:convert';
 
 FirebaseApp app;
