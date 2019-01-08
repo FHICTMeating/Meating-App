@@ -7,9 +7,7 @@ class QuestionRepository extends Repository<Question>{
   FirebaseDatabase database;
   DatabaseReference questionreference; 
 
-  QuestionRepository() : super(){
-
-  }
+  QuestionRepository() : super();
 
   Future init(){
     return super.init().then((app){

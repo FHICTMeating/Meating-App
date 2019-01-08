@@ -8,9 +8,7 @@ class UserRepository extends Repository<User>{
   FirebaseDatabase database;
   DatabaseReference userreference; 
 
-  UserRepository() : super(){
-
-  }
+  UserRepository() : super();
 
   Future init(){
     return super.init().then((app){

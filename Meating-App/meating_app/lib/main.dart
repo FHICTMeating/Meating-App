@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'dart:io' show Platform;
-import 'model/user.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'quiz.dart';
 import 'highscore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
