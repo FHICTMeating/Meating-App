@@ -24,12 +24,16 @@ class UserRepository extends Repository<User>{
 
   Future<List<User>> selectAll(){
     return userreference.once().then((dataSnapshot){
-      List<User> userList = new List<User>();
+      List<User> userList = new List<User>(); 
       dataSnapshot.value.forEach((key,v){
         var name = v["name"];
         var score = v["score"];
         userList.add(new User.withKey(name, score, key));
       });
+      userList.sort((a, b) => a.score.compareTo(b.score));
+      userList = userList.reversed.toList();
+      int top = userList.length < 10 ? userList.length - 1 : 9;
+      userList.setRange(0, top, userList);
       return userList;
     });
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'score.dart';
+import './model/user.dart';
+import './repository/userRepository.dart';
 
 class HighScoreScreen extends StatelessWidget {
   @override
@@ -19,13 +20,15 @@ class HighscoreForm extends StatefulWidget {
 }
 
 class HighscoreFormState extends State<HighscoreForm> {
-  final List<Score> scores = new List<Score>();
+  List<User> scores = new List<User>();
 
   @override
   void initState() {
-    scores.add(new Score('Team A', 100));
-    scores.add(new Score('Switch', 56));
-    scores.add(new Score('Werkmaat', 2));
+    UserRepository().selectAll().then((highscores){
+      setState(() {
+              this.scores = highscores;
+            });
+    });
     super.initState();
   }
 
@@ -38,7 +41,7 @@ class HighscoreFormState extends State<HighscoreForm> {
           itemCount: scores.length,
           itemBuilder: (context, index) {
             return ListTile(
-              title: Text(scores[index].teamName +
+              title: Text((index + 1).toString() + '. ' + scores[index].name +
                   ': ' +
                   scores[index].score.toString()),
             );
